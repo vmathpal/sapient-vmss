@@ -1,8 +1,8 @@
 plugin: azure_rm
+
 include_vm_resource_groups:
   - rg-shared-westeurope-01
 
 include_vmss_resource_groups:
-  - '*' 
-   
+  - '*'   
 auth_source: auto
