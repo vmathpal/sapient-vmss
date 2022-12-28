@@ -21,8 +21,9 @@ module "linuxservers" {
   data_disk_size_gb                = 16
   data_sa_type                     = "Premium_LRS"
   enable_ssh_key                   = true
-  admin_username          = "vmathpal"
-  ssh_key     = "~/.ssh/id_rsa.pub"  
+  custom_data                      = base64encode(local.custom_data)  
+  admin_username                   = "vmathpal"
+  ssh_key                          = "~/.ssh/id_rsa.pub"  
   vm_size                          = "Standard_D2s_v3"
   delete_data_disks_on_termination = true
 
