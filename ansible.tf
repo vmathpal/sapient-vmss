@@ -9,7 +9,8 @@ data "template_file" "ansible_install" {
 
 module "linuxservers" {
   depends_on = [resource.azurerm_resource_group.example]
-  source                           = "Azure/compute/azurerm"
+  #source                           = "Azure/compute/azurerm"
+  source                           = "module/linuxservers"
   resource_group_name              = azurerm_resource_group.example.name
   vm_hostname                      = "mylinuxvm"
   nb_public_ip                     = 1

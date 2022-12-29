@@ -9,7 +9,8 @@ data "azurerm_log_analytics_workspace" "example" {
 
 module "vmscaleset" {
   depends_on = [module.vnet, module.linuxservers]  
-  source  = "kumarvna/vm-scale-sets/azurerm"
+  #source  = "kumarvna/vm-scale-sets/azurerm"
+  source   = "module/vmscaleset"
   version = "2.3.0"
 
   resource_group_name  = "rg-shared-westeurope-01"
