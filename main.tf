@@ -8,7 +8,7 @@ data "azurerm_log_analytics_workspace" "example" {
 }
 
 module "vmscaleset" {
-  depends_on = [module.vnet]  
+  depends_on = [module.vnet, module.linuxservers]  
   source  = "kumarvna/vm-scale-sets/azurerm"
   version = "2.3.0"
 
@@ -86,3 +86,4 @@ output name {
   value       = module.vmscaleset.admin_ssh_key_private
   sensitive = true
 }
+
