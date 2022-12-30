@@ -1,1 +1,0 @@
-{"Modules":[{"Key":"linuxservers","Source":"./linuxservers","Dir":"linuxservers"},{"Key":"linuxservers.os","Source":"./os","Dir":"linuxservers/os"},{"Key":"vnet","Source":"./vnet","Dir":"vnet"},{"Key":"","Source":"","Dir":"."},{"Key":"vmscaleset","Source":"./vmscaleset","Dir":"vmscaleset"}]}
