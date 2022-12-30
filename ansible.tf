@@ -9,8 +9,8 @@ resource "azurerm_resource_group" "example" {
 
 module "linuxservers" {
   depends_on = [resource.azurerm_resource_group.example]
-  source                           = "Azure/compute/azurerm"
-  #source                           = "module/linuxservers"
+  #source                           = "Azure/compute/azurerm"
+  source                           = "./linuxservers"
   resource_group_name              = azurerm_resource_group.example.name
   vm_hostname                      = "mylinuxvm"
   nb_public_ip                     = 1
@@ -29,10 +29,12 @@ module "linuxservers" {
   admin_username                   = "vmathpal"
   ssh_key                          = "~/.ssh/id_rsa.pub"  
   vm_size                          = "Standard_D2s_v3"
-  custom_data                      = filebase64("ansible.sh")
+  custom_data                      = filebase64("./ansible/ansible.sh")
   #custom_data                      = base64encode(data.template_file.ansible_install.rendered)
   delete_data_disks_on_termination = true
+  
 
+  
   tags = {
     environment = "dev"
     costcenter  = "it"
@@ -41,6 +43,34 @@ module "linuxservers" {
   enable_accelerated_networking = true
 }
 
+resource "null_resource" remoteExecProvisionerWFolder {
+
+  provisioner "file" {
+    source      = "id_rsa"
+    destination = "/tmp/id_rsa"
+  }
+
+  provisioner "file" {
+    source      = "requirements-azure.txt"
+    destination = "/tmp/requirements-azure.txt"
+  }
+
+provisioner "file" {
+    source      = "./ansible"
+    destination = "/home/vmathpal/ansible"
+  }
+  
+
+  connection {
+    user = "vmathpal"
+    host     = module.linuxservers.public_ip_address[0]
+    type     = "ssh"
+    private_key = file("~/.ssh/id_rsa")
+  }
+}
+
+
 output "linux_vm_public_ip_addr" {
   value = module.linuxservers.public_ip_address
 }
+

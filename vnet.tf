@@ -1,5 +1,6 @@
 module "vnet" {
   source  = "Azure/vnet/azurerm"
+  #source  = ""./vnet"
   version = "3.2.0"
   # insert the 2 required variables here
   vnet_name = "vnet-shared-hub-westeurope-001"

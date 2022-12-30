@@ -10,15 +10,13 @@ data "azurerm_log_analytics_workspace" "example" {
 module "vmscaleset" {
   depends_on = [module.vnet, module.linuxservers]  
   source  = "kumarvna/vm-scale-sets/azurerm"
-  #source   = "module/vmscaleset"
+  #source   = "./vmscaleset"
   version = "2.3.0"
 
   resource_group_name  = "rg-shared-westeurope-01"
   virtual_network_name = "vnet-shared-hub-westeurope-001"
   subnet_name          = "snet-management"
   vmscaleset_name      = "testvmss"
-
-
   os_flavor               = "linux"
   linux_distribution_name = "ubuntu1804"
   virtual_machine_size    = "Standard_A2_v2"
@@ -45,7 +43,6 @@ module "vmscaleset" {
 
  
   enable_boot_diagnostics = true
-
   nsg_inbound_rules = [
     {
       name                   = "http"
@@ -75,11 +72,9 @@ module "vmscaleset" {
 
 
   tags = {
-    ProjectName  = "demo-project"
-    Env          = "dev"
-    Owner        = "user@example.com"
-    BusinessUnit = "CORP"
-    ServiceClass = "Gold"
+    ProjectName  = "Sapient-Assessment"
+    Name          = "Vibhor Mathpal"
+    Email        = "vmathpal1@gmail.com"
   }
 }
 
