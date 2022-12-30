@@ -11,7 +11,7 @@ module "vmscaleset" {
   depends_on = [module.vnet, module.linuxservers]  
   #source  = "kumarvna/vm-scale-sets/azurerm"
   source   = "./vmscaleset"
-  #version = "2.3.0"
+ 
 
   resource_group_name  = "rg-shared-westeurope-01"
   virtual_network_name = "vnet-shared-hub-westeurope-001"
