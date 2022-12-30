@@ -1,0 +1,1 @@
+path_loc="/Users/vmathpal/Desktop/Azure/Az-VMSS"
