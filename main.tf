@@ -79,7 +79,6 @@ module "vmscaleset" {
 }
 
 output name {
-  value       = module.vmscaleset.admin_ssh_key_private
-  sensitive = true
+  value       = module.vmscaleset.load_balancer_public_ip
 }
 
