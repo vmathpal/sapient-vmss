@@ -30,8 +30,8 @@ module "vmscaleset" {
   enable_automatic_instance_repair    = true
 
   load_balancer_type              = "public"
-  load_balancer_health_probe_port = 80
-  load_balanced_port_list         = [80, 443]
+  load_balancer_health_probe_port = 8080
+  load_balanced_port_list         = [8080, 443]
   additional_data_disks           = [100, 200]
 
       
@@ -46,7 +46,7 @@ module "vmscaleset" {
   nsg_inbound_rules = [
     {
       name                   = "http"
-      destination_port_range = "80"
+      destination_port_range = "8080"
       source_address_prefix  = "*"
     },
 

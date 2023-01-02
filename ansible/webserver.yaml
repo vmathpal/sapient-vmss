@@ -1,40 +1,35 @@
-- name: Ansible Playbook to Install and Setup Apache on Ubuntu
-  hosts: all
+---
+- hosts: all
   become: yes
-  tasks:
-    - name: Install latest version of Apache
-      apt: name=apache2 update_cache=yes state=latest
- 
-    - name: Create document root for domain configured in host variable
-      file:
-        path: "/var/www/{{ http_host }}"
-        state: directory
-        owner: www-data
-        group: www-data
-        mode: '0755'
- 
-    - name: Copy your index file
-      template:
-        src: "files/index-template.html"
-        dest: "/var/www/{{ http_host }}/index.html"
- 
-    - name: Set up virtuahHost
-      template:
-        src: "files/apache-template.conf"
-        dest: "/etc/apache2/sites-available/{{ http_conf }}"
- 
-    - name: Enable site
-      command: a2ensite {{ http_conf }}
-      notify: restart-apache
- 
-    - name: "UFW firewall allow HTTP on port {{ http_port }}"
-      ufw:
-        rule: allow
-        port: "{{ http_port }}"
-        proto: tcp
- 
+  vars:
+    - newport: 8080
   handlers:
-    - name: restart-apache
-      service:
-        name: apache2
-        state: restarted
+    - name: restart Apache
+      service: name=apache2 state=restarted
+  tasks:
+     - name: "Install Apache"
+       apt:
+          name: apache2
+          state: present
+     - name: "Start and enable"
+       service:
+           name: apache2
+           state: started
+           enabled: yes
+     - name: change default port of Apache in ports.conf
+       lineinfile:     
+           path: /etc/apache2/ports.conf
+           regexp: '^Listen \d+'
+           line: 'Listen {{ newport }}'
+       notify:
+        - restart Apache   
+ 
+     - name: apache2 virtualhost on port {{ newport }}
+       lineinfile:
+          path: /etc/apache2/sites-available/000-default.conf
+          #line: '<VirtualHost *:80>' Remove line
+          #state: absent           
+          regexp: '^<VirtualHost \*:'  #
+          line: "<VirtualHost *:{{ newport }}>"
+       notify:
+        - restart Apache    
